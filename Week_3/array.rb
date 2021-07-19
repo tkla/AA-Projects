@@ -9,6 +9,11 @@ class Array
         self
     end
 
+    def my_select(&prc)
+        res = []
+        self.my_each { |el| res << el if prc.call(el) }
+        res
+    end
 
 
 end
@@ -27,3 +32,7 @@ end
 #        3
   
 #   p return_value  # => [1, 2, 3]
+
+a = [1, 2, 3]
+p a.my_select { |num| num > 1 } # => [2, 3]
+p a.my_select { |num| num == 4 } # => []
