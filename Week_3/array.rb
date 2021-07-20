@@ -111,8 +111,24 @@ class Array
         res
     end
 
-end
+    def factors(num)
+        res = []
+        (1..num).each do |i| 
+            res << i if num % i == 0
+        end
+        #
+        res 
+    end
 
+    def bubble_sort!(&prc)
+    end
+  
+    def bubble_sort(&prc)
+    end
+
+end
+a = [10]
+p a.factors(10)
 # p [ "a", "b", "c" ].my_reverse   #=> ["c", "b", "a"]
 # p [ 1 ].my_reverse               #=> [1]
 
