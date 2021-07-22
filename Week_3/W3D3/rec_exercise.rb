@@ -105,7 +105,7 @@ end
 # p bsearch([1, 3, 4, 5, 9], 5) # => 3
 # p bsearch([1, 2, 3, 4, 5, 6], 6) # => 5
 # p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
-# p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
+#p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
 
 def merge(arr1, arr2)
     arr = [] 
@@ -166,17 +166,13 @@ def subsets(arr)
     
     last = arr.pop 
     old_set = subsets(arr)
-    res += old_set
+    res = old_set
     
-    old_set.each do |i| 
-        new_perm = i + [last]
-        res << new_perm 
-    end
-    res 
+    res += old_set.map{ |i| i + [last] }
 end
 
-p subsets([]) # => [[]]
-p subsets([1]) # => [[], [1]]
-p subsets([1, 2]) # => [[], [1], [2], [1, 2]]
-p subsets([1, 2, 3])
-# => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+# p subsets([]) # => [[]]
+# p subsets([1]) # => [[], [1]]
+# p subsets([1, 2]) # => [[], [1], [2], [1, 2]]
+# p subsets([1, 2, 3])
+# # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
