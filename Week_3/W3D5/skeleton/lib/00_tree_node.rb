@@ -57,11 +57,28 @@ class PolyTreeNode
             return self
         end 
         self.children.each do |n|
-          if n.dfs(target) != nil
-            return n 
+            v = n.dfs(target)
+          if v != nil
+            return v 
           end
         end
-           nil
+        nil
+    end
+
+    def bfs(target)
+        queue = []
+        if self.value == target
+            return self
+        end
+        children.each{|n| queue.unshift(n)} 
+        until queue.empty?
+            n = queue.pop 
+            return n if n.value == target
+            if !n.children.empty?
+              n.children.each {|n| queue.unshift(n)}
+            end
+        end
+        nil
     end
 
 end
