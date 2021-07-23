@@ -42,8 +42,26 @@ class PolyTreeNode
         child.parent = self 
     end
 
-    def remove_child 
-
+    def remove_child(child)
+       return nil if child == nil
+       flag = self.children.include?(child)
+       if !flag
+        raise "invalid child"
+       return nil
+       end
+       child.parent = nil
+    end
+    
+    def dfs(target)
+        if self.value == target
+            return self
+        end 
+        self.children.each do |n|
+          if n.dfs(target) != nil
+            return n 
+          end
+        end
+           nil
     end
 
 end
