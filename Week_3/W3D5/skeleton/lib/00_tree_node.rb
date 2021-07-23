@@ -1,4 +1,5 @@
 class PolyTreeNode
+    
     def initialize(value)
         @parent = nil 
         @value = value 
@@ -17,8 +18,6 @@ class PolyTreeNode
        @value  
     end
     
-    # Self -> change parent to Node
-    #
     def parent=(new_parent)
          if @parent != nil 
              self.parent.children.each_with_index do |n, idx| 
@@ -43,11 +42,10 @@ class PolyTreeNode
     end
 
     def remove_child(child)
-       return nil if child == nil
-       flag = self.children.include?(child)
-       if !flag
-        raise "invalid child"
-       return nil
+        return nil if child == nil
+        if !self.children.include?(child)
+            raise "invalid child"
+            return nil
        end
        child.parent = nil
     end
@@ -58,19 +56,17 @@ class PolyTreeNode
         end 
         self.children.each do |n|
             v = n.dfs(target)
-          if v != nil
-            return v 
-          end
+            return v if v != nil
         end
         nil
     end
 
     def bfs(target)
         queue = []
-        if self.value == target
-            return self
-        end
+        return self if self.value == target
+
         children.each{|n| queue.unshift(n)} 
+
         until queue.empty?
             n = queue.pop 
             return n if n.value == target
