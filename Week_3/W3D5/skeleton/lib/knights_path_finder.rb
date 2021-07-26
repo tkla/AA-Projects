@@ -4,7 +4,7 @@ require 'set'
 class KnightPathFinder
 
     @@board = Array.new(8){Array.new(8, 0)}
-    attr_reader :root_node
+    attr_reader :root_node, :considered_positions
 
     def initialize(pos)
         @root_node = PolyTreeNode.new(pos)
@@ -69,4 +69,5 @@ k = KnightPathFinder.new([0,0])
 # p KnightPathFinder.valid_moves([0, 0])
 # p k.new_move_positions([0, 0])
 
-p k.build_move_tree(k.root_node)
+res = k.build_move_tree(k.root_node)
+p k.considered_positions
