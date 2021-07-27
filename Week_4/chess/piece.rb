@@ -1,8 +1,8 @@
-require_relative 'board'
+# require_relative 'board'
 
 class Piece
-    attr_reader :name
-    def initialize(color, board, pos)
+    attr_reader :color, :board, :pos
+    def initialize(color = :NULL, board = nil, pos = nil)
         @color = color
         @board = board
         @pos = pos
@@ -13,7 +13,7 @@ class Piece
     end
 
     def empty?
-
+        self.is_a?(NullPiece)
     end
 
     def valid_moves
@@ -21,15 +21,19 @@ class Piece
     end
 
     def pos=(val)
-
+        @pos = val
     end
 
-    def Symbol
+    def symbol
         return color
     end
 
-
     def inspect
-        @name
+        @color
+    end
+
+    private
+    def move_into_check?(end_pos)
+        self.valid_moves.include?(end_pos)
     end
 end

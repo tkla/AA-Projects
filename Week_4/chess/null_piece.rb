@@ -1,9 +1,9 @@
-require_relative "piece"
+require "./piece"
 require 'singleton'
 
 class NullPiece < Piece
     include Singleton
     def initialize
-        @name = "nil"
+        super
     end
 end

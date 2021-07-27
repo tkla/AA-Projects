@@ -1,10 +1,11 @@
-require_relative 'piece'
+require './piece'
 require_relative 'null_piece'
 
 class Board
+    attr_reader :board
     def initialize
         # include Singleton
-        # @null = NullPiece.instance
+        @null = NullPiece.instance
         @board = Array.new(8){Array.new(8, @null)}
         # @queen = Piece.new("Queen")
         # @rook = Piece.new('Rook')
@@ -16,21 +17,24 @@ class Board
     end
 
     def set_pieces
-        @board[0][3] = Piece.new('Queen')
-        @board[0][1] = Piece.new('Knight')
+        @board[0][3] = Piece.new(:W, self, [0,3])
+        @board[0][1] = Piece.new(:B, self, [0,1])
 
     end
 
     def move_piece(color, start_pos, end_pos)
-        return nil if board[start_pos].is_a?(NullPiece) 
-        original_piece = board[start_pos]
-        end_piece = board[end_pos]
+        # return nil if board[start_pos].empty?
 
-        board[start_pos] = @null
+        original_piece = self[start_pos]
+        end_piece = self[end_pos]
 
-        if end_piece != @null && end_piece.color != color || @end_piece == @null
-            board[end_pos] = original_piece
+        
+
+        if end_piece.color != color || @end_piece.empty?
+            self[end_pos] = original_piece
         end
+
+        self[start_pos] = @null
     end
 
     def [](pos)
@@ -45,13 +49,14 @@ class Board
 
     def render
         @board.each do |row|
-            row.each do |piece|
-                p piece
+            row.each do |pieces|
+                print pieces.to_s.ljust(5)
             end
             puts
         end
     end
 end
 
-# b = Board.new
-# b.render
+b = Board.new
+b.move_piece(:W, [0,1], [1,1])
+b.render
