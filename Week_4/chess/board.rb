@@ -5,7 +5,7 @@ require_relative 'bishop'
 require_relative 'king'
 require_relative 'knight'
 require_relative 'pawn'
-
+require_relative 'queen'
 class Board
     attr_reader :board, :null
     def initialize
@@ -16,16 +16,35 @@ class Board
     end
 
     def add_pieces
-        @board[0][3] = Rook.new(:green, self, [0,3])
-        @board[1][3] = Pawn.new(:red, self, [1,3])
-        @board[2][4] = Pawn.new(:green, self, [2,4])
-        @board[4][3] = Pawn.new(:green, self, [4,3])
-        @board[0][4] = King.new(:red, self, [0,4])
-        @board[1][1] = Bishop.new(:red,self,[1,1])
-        @board[0][1] = Knight.new(:green,self,[0,1])
-        
-        # @board[0][1] = Piece.new(:red, self, [0,1])
+        #Top Side
+        @board[1].map!.with_index do |piece, i| 
+            Pawn.new(:red, self, [1,i])
+        end
 
+        @board[0][0] = Rook.new(:red, self, [0,0])
+        @board[0][7] = Rook.new(:red, self, [0,7])
+        @board[0][1] = Knight.new(:red,self,[0,1])
+        @board[0][6] = Knight.new(:red,self,[0,6])
+        @board[0][2] = Bishop.new(:red,self,[0,2])
+        @board[0][5] = Bishop.new(:red,self,[0,5])
+
+        @board[0][4] = King.new(:red, self, [0,4])
+        @board[0][3] = Queen.new(:red, self, [0,3])
+
+        #Bot side
+        @board[6].map!.with_index do |piece, i| 
+            Pawn.new(:green, self, [1,i])
+        end
+
+        @board[7][7] = Rook.new(:green, self,[7,7])
+        @board[7][1] = Knight.new(:green, self,[7,1])
+        @board[7][0] = Rook.new(:green, self, [7,0])
+        @board[7][6] = Knight.new(:green, self, [7,6])
+        @board[7][2] = Bishop.new(:green, self, [7,2])
+        @board[7][5] = Bishop.new(:green, self, [7,5])
+        @board[7][3] = King.new(:green, self, [7,3])
+        @board[7][4] = Queen.new(:green, self, [7,4])
+        @board
     end
 
     # 1. move_piece 
@@ -35,23 +54,23 @@ class Board
     # 5. Update piece.pos=
 
     def move_piece(color, start_pos, end_pos)
-        # return nil if board[start_pos].empty?
-
-        original_piece = self[start_pos]
-        end_piece = self[end_pos]
-
+        return nil if self[start_pos].empty?
         
+        raise ArgumentError.new("Non-valid start position") if !valid_pos?(start_pos)
+        raise ArgumentError.new("Non-valid end position") if !valid_pos?(end_pos)
+        res = self[start_pos].moves
 
-        if end_piece.color != color || @end_piece.empty?
-            self[end_pos] = original_piece
-        end
-
-        self[start_pos] = @null
+        if res.include?(end_pos) 
+            self[start_pos], self[end_pos] = @null, self[start_pos]
+            self[end_pos].pos = end_pos 
+        else
+            raise ArgumentError.new("Wrong")
+        end 
     end
 
     #Basic sanity check, if pos is on board.
     def valid_pos?(pos)
-        
+        self[pos] != nil
     end
 
     def [](pos)
@@ -80,4 +99,14 @@ b = Board.new
 #b.move_piece(:W, [0,1], [1,1])
 b.render
 # print "#{b.board[0][3]} \n"
-p b.board[1][3].moves
+b.move_piece(:red, [1,0], [2,0])
+puts 
+b.render
+
+b.move_piece(:red, [2,0], [3,0])
+puts 
+
+b.render
+b.move_piece(:red, [3,0], [4,0])
+puts 
+
