@@ -1,24 +1,23 @@
 require_relative "piece"
 require_relative 'null_piece'
 require_relative 'rook'
+require_relative 'bishop'
 class Board
     attr_reader :board, :null
     def initialize
         # include Singleton
         @null = NullPiece.instance
         @board = Array.new(8){Array.new(8, @null)}
-        # @queen = Piece.new("Queen")
-        # @rook = Piece.new('Rook')
-        # @knight = Piece.new('Knight')
-        # @bishop = Piece.new('Bishop')
-        # @king = Piece.new('King')
-        # @pawn = Piece.new('Pawn')
-        set_pieces
+        add_pieces
     end
 
-    def set_pieces
-        @board[0][3] = Rook.new("\u2656".encode('utf-8'), self, [0,3])
-        @board[0][1] = Piece.new(:B, self, [0,1])
+    def add_pieces
+        @board[0][3] = Rook.new(:green, self, [0,3])
+        @board[1][3] = Rook.new(:green, self, [1,3])
+        @board[0][4] = Rook.new(:red, self, [0,4])
+        @board[1][1] = Bishop.new(:red,self,[1,1])
+        
+        # @board[0][1] = Piece.new(:red, self, [0,1])
 
     end
 
@@ -50,6 +49,7 @@ class Board
 
     def [](pos)
         x,y = pos
+        return nil if x < 0 || y < 0
         return nil if @board[x] == nil
         @board[x][y]
     end
@@ -62,7 +62,7 @@ class Board
     def render
         @board.each do |row|
             row.each do |pieces|
-                print pieces.to_s.ljust(5)
+                print " #{pieces.to_s} "
             end
             puts
         end
@@ -72,5 +72,5 @@ end
 b = Board.new
 #b.move_piece(:W, [0,1], [1,1])
 b.render
-#print "#{b.board[0][3]} \n"
-b.board[0][3].moves
+# print "#{b.board[0][3]} \n"
+p b.board[0][3].moves

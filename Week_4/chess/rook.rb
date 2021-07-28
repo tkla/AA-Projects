@@ -1,9 +1,10 @@
 require_relative "piece"
 require_relative "slideable"
+require 'colorize'
 
 class Rook < Piece 
     include Slideable
-    def initialize(color = :NULL, board = nil, pos = nil)
+    def initialize(color, board = nil, pos = nil)
         super 
     end 
 
@@ -11,14 +12,16 @@ class Rook < Piece
     #     moves
     # end
 
-    # def symbol 
-    #   "\u2656".encode('utf-8')
-    # end
+    def symbol 
+      ("\u2656".encode('utf-8')).colorize(color)
+    end
     private 
     # @board 
     # @pos
 
     def move_dirs
-        :H 
+        moves
     end
 end
+
+# k = Rook.new(:red, nil, nil)

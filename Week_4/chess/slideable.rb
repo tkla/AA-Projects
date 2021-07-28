@@ -1,24 +1,20 @@
 require_relative 'null_piece'
 module Slideable 
    
-    # :H
-    # :D 
-    # :HD
     def moves 
-        sym = move_dirs
-        res = [] 
-        case sym 
-        when :H 
+        res = []
+        case self.class.name
+        when "Rook"
             horizontal_dirs.each do |pos| 
                 x, y = pos 
                 res += grow_unblocked_moves_in_dir(x, y)
             end 
-        when :D 
+        when "Bishop"
             diagonal_dirs.each do |pos| 
                 x, y = pos 
                 res += grow_unblocked_moves_in_dir(x, y)
             end 
-        when :HD 
+        when "Queen" 
             horizontal_dirs.each do |pos| 
                 x, y = pos 
                 res += grow_unblocked_moves_in_dir(x, y)
@@ -46,17 +42,20 @@ module Slideable
 
     def grow_unblocked_moves_in_dir(dx, dy)
         res = [] 
-        start_pos = self.pos        
-        end_pos = [start_pos[0] + dx, start_pos[1] + dy] 
+        start_pos = self.pos
+        end_x = start_pos[0] + dx
+        end_y = start_pos[1] + dy
 
         # self.color != board[end_pos].color     
-        until board[end_pos] == nil || board[end_pos] != board.null  
-            res << end_pos 
-            end_pos[0] += dx 
-            end_pos[1] += dy 
-            p end_pos  
+        until board[[end_x, end_y]] != board.null #&& self.color != board[end_pos].color  
+            res << [end_x, end_y]
+            end_x += dx 
+            end_y += dy  
         end
-        p res 
+        if !board[[end_x,end_y]].nil? && board[[end_x,end_y]].color != self.color
+            res << [end_x, end_y]
+        end
+        
         res 
     end
 end

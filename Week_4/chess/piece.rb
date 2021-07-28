@@ -2,14 +2,14 @@
 
 class Piece
     attr_reader :color, :board, :pos
-    def initialize(color = :NULL, board = nil, pos = nil)
+    def initialize(color = :white, board = nil, pos = nil)
         @color = color
         @board = board
         @pos = pos
     end
 
     def to_s
-        color.to_s
+        symbol.to_s.colorize(color)
     end
 
     def empty?
@@ -25,7 +25,7 @@ class Piece
     end
 
     def symbol
-        return color
+        return "_"
     end
 
     def inspect
@@ -37,3 +37,6 @@ class Piece
         self.valid_moves.include?(end_pos)
     end
 end
+
+# pi = Piece.new
+# p pi.to_s
