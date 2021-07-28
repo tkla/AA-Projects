@@ -1,3 +1,4 @@
+require_relative 'null_piece'
 module Slideable 
    
     # :H
@@ -6,7 +7,6 @@ module Slideable
     def moves 
         sym = move_dirs
         res = [] 
-        
         case sym 
         when :H 
             horizontal_dirs.each do |pos| 
@@ -29,7 +29,6 @@ module Slideable
             end 
 
         end 
-
         (res.empty?)? nil : res 
     end
 
@@ -47,16 +46,17 @@ module Slideable
 
     def grow_unblocked_moves_in_dir(dx, dy)
         res = [] 
-
-        start_pos = self.pos  
+        start_pos = self.pos        
         end_pos = [start_pos[0] + dx, start_pos[1] + dy] 
 
-        until board[end_pos] != @null || self.color != board[end_pos].color && board[end_pos] != nil 
+        # self.color != board[end_pos].color     
+        until board[end_pos] == nil || board[end_pos] != board.null  
             res << end_pos 
             end_pos[0] += dx 
             end_pos[1] += dy 
+            p end_pos  
         end
-
+        p res 
         res 
     end
 end

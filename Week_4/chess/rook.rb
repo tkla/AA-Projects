@@ -3,7 +3,7 @@ require_relative "slideable"
 
 class Rook < Piece 
     include Slideable
-    def initialize 
+    def initialize(color = :NULL, board = nil, pos = nil)
         super 
     end 
 
@@ -11,6 +11,9 @@ class Rook < Piece
     #     moves
     # end
 
+    # def symbol 
+    #   "\u2656".encode('utf-8')
+    # end
     private 
     # @board 
     # @pos

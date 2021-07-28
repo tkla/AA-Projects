@@ -1,8 +1,8 @@
 require_relative "piece"
 require_relative 'null_piece'
-
+require_relative 'rook'
 class Board
-    attr_reader :board
+    attr_reader :board, :null
     def initialize
         # include Singleton
         @null = NullPiece.instance
@@ -17,7 +17,7 @@ class Board
     end
 
     def set_pieces
-        @board[0][3] = Piece.new("\u2656".encode('utf-8'), self, [0,3])
+        @board[0][3] = Rook.new("\u2656".encode('utf-8'), self, [0,3])
         @board[0][1] = Piece.new(:B, self, [0,1])
 
     end
@@ -50,6 +50,7 @@ class Board
 
     def [](pos)
         x,y = pos
+        return nil if @board[x] == nil
         @board[x][y]
     end
 
@@ -69,5 +70,7 @@ class Board
 end
 
 b = Board.new
-b.move_piece(:W, [0,1], [1,1])
+#b.move_piece(:W, [0,1], [1,1])
 b.render
+#print "#{b.board[0][3]} \n"
+b.board[0][3].moves
