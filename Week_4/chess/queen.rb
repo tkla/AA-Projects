@@ -4,9 +4,6 @@ require 'colorize'
 
 class Queen < Piece 
     include Slideable
-    def initialize(color, board = nil, pos = nil)
-        super 
-    end 
 
     def symbol 
       ("\u2655".encode('utf-8')).colorize(color)

@@ -2,6 +2,10 @@ require_relative "piece"
 require_relative 'null_piece'
 require_relative 'rook'
 require_relative 'bishop'
+require_relative 'king'
+require_relative 'knight'
+require_relative 'pawn'
+
 class Board
     attr_reader :board, :null
     def initialize
@@ -13,9 +17,12 @@ class Board
 
     def add_pieces
         @board[0][3] = Rook.new(:green, self, [0,3])
-        @board[1][3] = Rook.new(:green, self, [1,3])
-        @board[0][4] = Rook.new(:red, self, [0,4])
+        @board[1][3] = Pawn.new(:red, self, [1,3])
+        @board[2][4] = Pawn.new(:green, self, [2,4])
+        @board[4][3] = Pawn.new(:green, self, [4,3])
+        @board[0][4] = King.new(:red, self, [0,4])
         @board[1][1] = Bishop.new(:red,self,[1,1])
+        @board[0][1] = Knight.new(:green,self,[0,1])
         
         # @board[0][1] = Piece.new(:red, self, [0,1])
 
@@ -73,4 +80,4 @@ b = Board.new
 #b.move_piece(:W, [0,1], [1,1])
 b.render
 # print "#{b.board[0][3]} \n"
-p b.board[0][3].moves
+p b.board[1][3].moves

@@ -4,9 +4,6 @@ require 'colorize'
 
 class Rook < Piece 
     include Slideable
-    def initialize(color, board = nil, pos = nil)
-        super 
-    end 
 
     # def valid_moves
     #     moves
