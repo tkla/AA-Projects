@@ -17,7 +17,20 @@ class Piece
     end
 
     def valid_moves
-        moves
+        duped_board = []
+
+    end
+
+    def dup_board
+        duped_board = []
+        @board.each do |row|
+            duped_row = []
+            row.each do |piece|
+                duped_row << piece
+            end
+            duped_board << duped_row
+        end
+        duped_board
     end
 
     def pos=(val)
@@ -34,7 +47,13 @@ class Piece
 
     private
     def move_into_check?(end_pos)
-        self.valid_moves.include?(end_pos)
+        d = dup_board
+
+        #iterate over piece's moves
+        #with dup'd board, make the move
+        #check to see if those moves changes the output of in_check?
+        #return true or false
+
     end
 end
 

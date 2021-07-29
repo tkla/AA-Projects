@@ -7,44 +7,70 @@ require_relative 'knight'
 require_relative 'pawn'
 require_relative 'queen'
 class Board
-    attr_reader :board, :null
+    attr_reader :grid, :null
     def initialize
         # include Singleton
         @null = NullPiece.instance
-        @board = Array.new(8){Array.new(8, @null)}
+        @grid = Array.new(8){Array.new(8, @null)}
+        @king_green = nil
+        @king_red = nil
+        # @regular_reds = Set.new
+        # @regular_greens = Set.new
         add_pieces
     end
 
     def add_pieces
         #Top Side
-        @board[1].map!.with_index do |piece, i| 
+        @grid[1].map!.with_index do |piece, i| 
             Pawn.new(:red, self, [1,i])
         end
 
-        @board[0][0] = Rook.new(:red, self, [0,0])
-        @board[0][7] = Rook.new(:red, self, [0,7])
-        @board[0][1] = Knight.new(:red,self,[0,1])
-        @board[0][6] = Knight.new(:red,self,[0,6])
-        @board[0][2] = Bishop.new(:red,self,[0,2])
-        @board[0][5] = Bishop.new(:red,self,[0,5])
+        self[0,0] = Rook.new(:red, self, [0,0])
+        self[0,7] = Rook.new(:red, self, [0,7])
+        self[0,1] = Knight.new(:red,self,[0,1])
+        self[0,6] = Knight.new(:red,self,[0,6])
+        self[0,2] = Bishop.new(:red,self,[0,2])
+        self[0,5] = Bishop.new(:red,self,[0,5])
+        self[0,4] = King.new(:red, self, [0,4])
+        self[0,3] = Queen.new(:red, self, [0,3])
+        @king_red = self[0,4]
 
-        @board[0][4] = King.new(:red, self, [0,4])
-        @board[0][3] = Queen.new(:red, self, [0,3])
+        # @regular_reds << self[0,0]
+        # @regular_reds << self[0,7]
+        # @regular_reds << self[0,1]
+        # @regular_reds << self[0,6]
+        # @regular_reds << self[0,2]
+        # @regular_reds << self[0,5]
+        # @regular_reds << self[0,4]
+        # @regular_reds << self[0,3]
+
 
         #Bot side
-        @board[6].map!.with_index do |piece, i| 
-            Pawn.new(:green, self, [1,i])
+        @grid[6].map!.with_index do |piece, i| 
+            Pawn.new(:green, self, [6,i])
         end
 
-        @board[7][7] = Rook.new(:green, self,[7,7])
-        @board[7][1] = Knight.new(:green, self,[7,1])
-        @board[7][0] = Rook.new(:green, self, [7,0])
-        @board[7][6] = Knight.new(:green, self, [7,6])
-        @board[7][2] = Bishop.new(:green, self, [7,2])
-        @board[7][5] = Bishop.new(:green, self, [7,5])
-        @board[7][3] = King.new(:green, self, [7,3])
-        @board[7][4] = Queen.new(:green, self, [7,4])
-        @board
+        self[7,7] = Rook.new(:green, self,[7,7])
+        self[7,1] = Knight.new(:green, self,[7,1])
+        self[7,0] = Rook.new(:green, self, [7,0])
+        self[7,6] = Knight.new(:green, self, [7,6])
+        self[7,2] = Bishop.new(:green, self, [7,2])
+        self[7,5] = Bishop.new(:green, self, [7,5])
+        self[7,3] = King.new(:green, self, [7,3])
+        self[7,4] = Queen.new(:green, self, [7,4])
+        @king_green = self[7,3]
+
+        # @regular_greens << self[7,7]
+        # @regular_greens << self[7,1]
+        # @regular_greens << self[7,0]
+        # @regular_greens << self[7,6]
+        # @regular_greens << self[7,2]
+        # @regular_greens << self[7,5]
+        # @regular_greens << self[7,3]
+        # @regular_greens << self[7,4]
+
+
+        @grid
     end
 
     # 1. move_piece 
@@ -68,7 +94,7 @@ class Board
         end 
     end
 
-    #Basic sanity check, if pos is on board.
+    #Basic sanity check, if pos is on grid.
     def valid_pos?(pos)
         self[pos] != nil
     end
@@ -76,37 +102,34 @@ class Board
     def [](pos)
         x,y = pos
         return nil if x < 0 || y < 0
-        return nil if @board[x] == nil
-        @board[x][y]
+        return nil if @grid[x] == nil
+        @grid[x][y]
     end
 
     def []=(pos, piece)
         x,y = pos
-        @board[x][y] = piece
+        @grid[x][y] = piece
     end
 
-    def render
-        @board.each do |row|
-            row.each do |pieces|
-                print " #{pieces.to_s} "
+    def in_check?(color)
+        color == :green ? current_king = @king_green : current_king = @king_red
+
+        @grid.each do |row|
+            row.each do |piece|
+                if piece.color != current_king.color
+                    return true if piece.move.include?(current_king.pos)
+                end
             end
-            puts
         end
+        false
+    end
+
+    def checkmate?(color)
+        return false if !in_check?(color)
+        color == :green ? current_king = @king_green : current_king = @king_red
+        flag = false
+        return false if !@current_king.valid_moves.empty?
+        #need to implement valid moves
     end
 end
-
-b = Board.new
-#b.move_piece(:W, [0,1], [1,1])
-b.render
-# print "#{b.board[0][3]} \n"
-b.move_piece(:red, [1,0], [2,0])
-puts 
-b.render
-
-b.move_piece(:red, [2,0], [3,0])
-puts 
-
-b.render
-b.move_piece(:red, [3,0], [4,0])
-puts 
 
