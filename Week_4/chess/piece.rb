@@ -17,8 +17,7 @@ class Piece
     end
 
     def valid_moves
-        duped_board = []
-
+        moves.select { |pos| !move_into_check?(pos) }
     end
 
     def dup_board
@@ -49,11 +48,13 @@ class Piece
     def move_into_check?(end_pos)
         d = dup_board
 
+        curr_pos = self.pos 
+        d[curr_pos].move_piece
+        d.in_check?(self.color)
         #iterate over piece's moves
         #with dup'd board, make the move
         #check to see if those moves changes the output of in_check?
         #return true or false
-
     end
 end
 

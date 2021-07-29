@@ -25,15 +25,15 @@ class Board
             Pawn.new(:red, self, [1,i])
         end
 
-        self[0,0] = Rook.new(:red, self, [0,0])
-        self[0,7] = Rook.new(:red, self, [0,7])
-        self[0,1] = Knight.new(:red,self,[0,1])
-        self[0,6] = Knight.new(:red,self,[0,6])
-        self[0,2] = Bishop.new(:red,self,[0,2])
-        self[0,5] = Bishop.new(:red,self,[0,5])
-        self[0,4] = King.new(:red, self, [0,4])
-        self[0,3] = Queen.new(:red, self, [0,3])
-        @king_red = self[0,4]
+        self[[0,7]] = Rook.new(:red, self, [0,7])
+        self[[0,1]] = Knight.new(:red,self,[0,1])
+        self[[0,0]] = Rook.new(:red, self, [0,0])
+        self[[0,6]] = Knight.new(:red,self,[0,6])
+        self[[0,2]] = Bishop.new(:red,self,[0,2])
+        self[[0,5]] = Bishop.new(:red,self,[0,5])
+        self[[0,4]] = King.new(:red, self, [0,4])
+        self[[0,3]] = Queen.new(:red, self, [0,3])
+        @king_red = self[[0,4]]
 
         # @regular_reds << self[0,0]
         # @regular_reds << self[0,7]
@@ -50,15 +50,15 @@ class Board
             Pawn.new(:green, self, [6,i])
         end
 
-        self[7,7] = Rook.new(:green, self,[7,7])
-        self[7,1] = Knight.new(:green, self,[7,1])
-        self[7,0] = Rook.new(:green, self, [7,0])
-        self[7,6] = Knight.new(:green, self, [7,6])
-        self[7,2] = Bishop.new(:green, self, [7,2])
-        self[7,5] = Bishop.new(:green, self, [7,5])
-        self[7,3] = King.new(:green, self, [7,3])
-        self[7,4] = Queen.new(:green, self, [7,4])
-        @king_green = self[7,3]
+        self[[7,7]] = Rook.new(:green, self,[7,7])
+        self[[7,1]] = Knight.new(:green, self,[7,1])
+        self[[7,0]] = Rook.new(:green, self, [7,0])
+        self[[7,6]] = Knight.new(:green, self, [7,6])
+        self[[7,2]] = Bishop.new(:green, self, [7,2])
+        self[[7,5]] = Bishop.new(:green, self, [7,5])
+        self[[7,3]] = King.new(:green, self, [7,3])
+        self[[7,4]] = Queen.new(:green, self, [7,4])
+        @king_green = self[[7,3]]
 
         # @regular_greens << self[7,7]
         # @regular_greens << self[7,1]
@@ -127,9 +127,15 @@ class Board
     def checkmate?(color)
         return false if !in_check?(color)
         color == :green ? current_king = @king_green : current_king = @king_red
-        flag = false
-        return false if !@current_king.valid_moves.empty?
-        #need to implement valid moves
+
+        return true if !@current_king.valid_moves.empty?
+        @grid.each do |row|
+            row.each do |piece|
+                if piece.color == color
+                    return true if !piece.valid_moves.empty?
+                end
+            end
+        end
+        false
     end
 end
-
