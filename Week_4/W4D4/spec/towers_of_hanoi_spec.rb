@@ -51,4 +51,14 @@ describe "TowerOfHanoi" do
          
     end
 
+    describe "#valid_move?" do
+        it "returns false if start tower is empty" do
+            expect(subject.valid_move?([2,1])).to eq(false)
+        end
+
+        it "returns.." do
+
+        end
+    end
+
 end

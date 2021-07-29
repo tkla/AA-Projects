@@ -1,6 +1,6 @@
 class TowersOfHanoi
 
-    attr_accessor :r1, :r2, :r3 
+    attr_accessor :r1, :r2, :r3
 
     def initialize 
         @r1 = [3,2,1]
@@ -14,13 +14,12 @@ class TowersOfHanoi
     end
 
     def play
-        until won?  
-            begin 
-                move(get_move)
-            rescue 
-                puts "That is not a valid input"
-                retry 
-            end
+        won?
+        begin 
+            move(get_move)
+        rescue 
+            puts "That is not a valid input"
+            retry 
         end
         puts "Congrats!"
     end
@@ -33,7 +32,7 @@ class TowersOfHanoi
         puts "Enter two numbers eg (1 3)"
         user_input = gets.chomp.split(" ").map {|i| Integer(i)}
         raise ArgumentError if user_input.length != 2 
-
+        raise ArgumentError if user_input[0] == user_input[1]
         raise ArgumentError if user_input.any?{ |i| !i.between?(1,3)}
     end
 
@@ -48,10 +47,12 @@ class TowersOfHanoi
 
     def valid_move?(position)
         x,y = position 
-        
-        return false if @hash[x].last > @hash[y].last 
+        return false if @hash[x].empty?
+        return true if @hash[y].empty?
+        return false if @hash[x].last > @hash[y].last
+        true
     end
 end
 
-t = TowersOfHanoi.new 
-t.play
+# t = TowersOfHanoi.new 
+# t.play
