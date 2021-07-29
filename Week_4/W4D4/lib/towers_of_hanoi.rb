@@ -1,6 +1,7 @@
 class TowersOfHanoi
 
-    attr_reader :r1, :r2, :r3 
+    attr_accessor :r1, :r2, :r3 
+
     def initialize 
         @r1 = [3,2,1]
         @r2 = [] 
@@ -8,14 +9,20 @@ class TowersOfHanoi
     end
 
     def play  
-        
+        won?
+        move(get_move)
+        puts "Congrats!"
     end
 
     def won? 
-        
+        @r1.empty? && @r2.empty? && @r3.length == 3
     end
 
-    def move 
+    def get_move
+
+    end
+
+    def move(position)
 
     end 
 

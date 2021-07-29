@@ -11,4 +11,36 @@ describe "TowerOfHanoi" do
             expect(subject.r3).to eq([])
         end 
     end
+
+    describe "#won?" do
+        it "returns false when game starts" do
+            expect(subject.won?).to eq(false)
+        end
+
+        it "returns true when all towers except r3 are empty" do
+            subject.r3 = subject.r1
+            subject.r1 = []
+            subject.r2 = []
+
+            expect(subject.won?).to eq(true)
+        end
+    end
+
+    describe "#play" do
+        it "calls #won?" do
+            expect(subject).to receive(:won?)
+            subject.play
+        end
+
+        it "calls #get_move" do
+            expect(subject).to receive(:get_move)
+            subject.play
+        end
+
+        it "calls #move" do
+            expect(subject).to receive(:move)
+            subject.play
+        end
+    end
+
 end
