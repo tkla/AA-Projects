@@ -7,15 +7,13 @@ require_relative 'knight'
 require_relative 'pawn'
 require_relative 'queen'
 class Board
-    attr_reader :grid, :null
+    attr_reader :grid, :null, :king_green
     def initialize
         # include Singleton
         @null = NullPiece.instance
         @grid = Array.new(8){Array.new(8, @null)}
         @king_green = nil
         @king_red = nil
-        # @regular_reds = Set.new
-        # @regular_greens = Set.new
         add_pieces
     end
 
@@ -35,16 +33,6 @@ class Board
         self[[0,3]] = Queen.new(:red, self, [0,3])
         @king_red = self[[0,4]]
 
-        # @regular_reds << self[0,0]
-        # @regular_reds << self[0,7]
-        # @regular_reds << self[0,1]
-        # @regular_reds << self[0,6]
-        # @regular_reds << self[0,2]
-        # @regular_reds << self[0,5]
-        # @regular_reds << self[0,4]
-        # @regular_reds << self[0,3]
-
-
         #Bot side
         @grid[6].map!.with_index do |piece, i| 
             Pawn.new(:green, self, [6,i])
@@ -56,19 +44,9 @@ class Board
         self[[7,6]] = Knight.new(:green, self, [7,6])
         self[[7,2]] = Bishop.new(:green, self, [7,2])
         self[[7,5]] = Bishop.new(:green, self, [7,5])
-        self[[7,3]] = King.new(:green, self, [7,3])
         self[[7,4]] = Queen.new(:green, self, [7,4])
-        @king_green = self[[7,3]]
-
-        # @regular_greens << self[7,7]
-        # @regular_greens << self[7,1]
-        # @regular_greens << self[7,0]
-        # @regular_greens << self[7,6]
-        # @regular_greens << self[7,2]
-        # @regular_greens << self[7,5]
-        # @regular_greens << self[7,3]
-        # @regular_greens << self[7,4]
-
+        self[[0,2]] = King.new(:green, self, [0,2])
+        @king_green = self[[0,2]]
 
         @grid
     end
@@ -117,7 +95,7 @@ class Board
         @grid.each do |row|
             row.each do |piece|
                 if piece.color != current_king.color
-                    return true if piece.move.include?(current_king.pos)
+                    return true if piece.moves.include?(current_king.pos)
                 end
             end
         end
@@ -128,7 +106,7 @@ class Board
         return false if !in_check?(color)
         color == :green ? current_king = @king_green : current_king = @king_red
 
-        return true if !@current_king.valid_moves.empty?
+        return true if !current_king.valid_moves.empty?
         @grid.each do |row|
             row.each do |piece|
                 if piece.color == color
@@ -139,3 +117,5 @@ class Board
         false
     end
 end
+
+

@@ -2,7 +2,8 @@ require_relative 'cursor'
 require_relative 'board'
 require 'colorize'
 class Display
-    attr_reader :cursor
+    attr_reader :cursor, :board
+
     def initialize
         @board = Board.new
         @cursor = Cursor.new([0,0], @board)
@@ -30,7 +31,11 @@ end
 
 d = Display.new
 d.render
-while d.cursor.get_input != nil
-    d.render
-    puts
-end
+puts  
+puts d.board.in_check?(:green)
+puts d.board.checkmate?(:green)
+
+# while d.cursor.get_input != nil
+#     d.render
+#     puts
+# end

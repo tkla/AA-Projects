@@ -12,6 +12,10 @@ class Piece
         symbol.to_s.colorize(color)
     end
 
+    def moves 
+        []
+    end
+    
     def empty?
         self.is_a?(NullPiece)
     end

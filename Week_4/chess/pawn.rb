@@ -11,7 +11,6 @@ class Pawn < Piece
     end
 
     def moves
-        
         forward_steps + side_attacks
     end
 

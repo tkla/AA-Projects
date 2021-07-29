@@ -25,7 +25,7 @@ module Slideable
             end 
 
         end 
-        (res.empty?)? nil : res 
+        res 
     end
 
     def horizontal_dirs
