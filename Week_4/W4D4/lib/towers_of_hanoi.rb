@@ -14,12 +14,14 @@ class TowersOfHanoi
     end
 
     def play
-        won?
-        begin 
-            move(get_move)
-        rescue 
-            puts "That is not a valid input"
-            retry 
+        until won?
+            begin 
+                move(get_move)
+            rescue 
+                puts "That is not a valid input"
+                retry 
+            end
+            print " #{@hash} \n"
         end
         puts "Congrats!"
     end
@@ -32,16 +34,17 @@ class TowersOfHanoi
         puts "Enter two numbers eg (1 3)"
         user_input = gets.chomp.split(" ").map {|i| Integer(i)}
         raise ArgumentError if user_input.length != 2 
-        raise ArgumentError if user_input[0] == user_input[1]
         raise ArgumentError if user_input.any?{ |i| !i.between?(1,3)}
+        user_input
     end
 
     
     def move(position)
+        x, y = position    
         if valid_move?(position) 
-
+            @hash[y] << @hash[x].pop 
         else  
-            raise ArgumentError
+            #raise ArgumentError
         end
     end 
 
@@ -54,5 +57,5 @@ class TowersOfHanoi
     end
 end
 
-# t = TowersOfHanoi.new 
-# t.play
+t = TowersOfHanoi.new 
+t.play

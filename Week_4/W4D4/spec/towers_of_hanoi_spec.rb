@@ -3,6 +3,7 @@ require 'rspec'
 
 describe "TowerOfHanoi" do 
     subject(:tower_of_hanoi) {TowersOfHanoi.new}
+    
     describe "#Initialize" do 
         
         it "Creates 3 arrays" do 
@@ -28,12 +29,12 @@ describe "TowerOfHanoi" do
 
     describe "#play" do
         it "calls #won?" do
-            expect(subject).to receive(:won?)
+            expect(subject).to receive(:won? => true)
             subject.play
         end
 
         it "calls #get_move" do
-            expect(subject).to receive(:get_move)
+            expect(subject).to receive(:get_move => [1, 3])
             subject.play
         end
 
@@ -46,9 +47,8 @@ describe "TowerOfHanoi" do
     describe "#move" do 
         it "Calls #valid_move?" do 
             expect(subject).to receive(:valid_move?)
-            subject.move 
+            subject.move([1, 2]) 
         end 
-         
     end
 
     describe "#valid_move?" do
