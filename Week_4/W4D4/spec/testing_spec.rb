@@ -37,7 +37,15 @@ describe "Array" do
                 [2, 5, 8]
             ]
 
-            expect (matrix.my_transpose).to eq(my_transposed)
+            expect(matrix.my_transpose).to eq(matrix_transposed)
         end 
+    end
+
+    describe "#stock_pick" do
+        it "picks pairs in an array that are the most profitable" do
+            arr = [1, 5, 2, 10]
+
+            expect(arr.stock_pick).to eq([0, 3])
+        end
     end
 end  
