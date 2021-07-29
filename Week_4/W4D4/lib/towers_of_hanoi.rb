@@ -6,11 +6,22 @@ class TowersOfHanoi
         @r1 = [3,2,1]
         @r2 = [] 
         @r3 = []
+        @hash = {
+            1 => @r1,
+            2 => @r2,
+            3 => @r3
+        }
     end
 
-    def play  
-        won?
-        move(get_move)
+    def play
+        until won?  
+            begin 
+                move(get_move)
+            rescue 
+                puts "That is not a valid input"
+                retry 
+            end
+        end
         puts "Congrats!"
     end
 
@@ -19,11 +30,28 @@ class TowersOfHanoi
     end
 
     def get_move
+        puts "Enter two numbers eg (1 3)"
+        user_input = gets.chomp.split(" ").map {|i| Integer(i)}
+        raise ArgumentError if user_input.length != 2 
 
+        raise ArgumentError if user_input.any?{ |i| !i.between?(1,3)}
     end
 
+    
     def move(position)
+        if valid_move?(position) 
 
+        else  
+            raise ArgumentError
+        end
     end 
 
+    def valid_move?(position)
+        x,y = position 
+        
+        return false if @hash[x].last > @hash[y].last 
+    end
 end
+
+t = TowersOfHanoi.new 
+t.play

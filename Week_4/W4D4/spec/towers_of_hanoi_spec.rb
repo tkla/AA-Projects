@@ -43,4 +43,12 @@ describe "TowerOfHanoi" do
         end
     end
 
+    describe "#move" do 
+        it "Calls #valid_move?" do 
+            expect(subject).to receive(:valid_move?)
+            subject.move 
+        end 
+         
+    end
+
 end
