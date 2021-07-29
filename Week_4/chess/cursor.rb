@@ -48,7 +48,7 @@ class Cursor
   private
 
   def read_char
-    STDIN.echo = false # stops the console from printing return values
+    #STDIN.echo = false # stops the console from printing return values
 
     STDIN.raw! # in raw mode data is given as is to the program--the system
                  # doesn't preprocess special characters such as control-c
@@ -70,7 +70,7 @@ class Cursor
       input << STDIN.read_nonblock(2) rescue nil
     end
 
-    STDIN.echo = true # the console prints return values again
+    #STDIN.echo = true # the console prints return values again
     STDIN.cooked! # the opposite of raw mode :)
 
     return input
@@ -94,7 +94,7 @@ class Cursor
       Process.exit(0)
     when :return, :space
       toggle_selected
-      return @cursor_pos
+      @cursor_pos
     end
   end
 
