@@ -20,4 +20,11 @@ class Deck
         @deck.shuffle!
     end
 
+    def draw_card(n)
+        hand = [] 
+        n.times do 
+            hand << @deck.pop 
+        end 
+        hand 
+    end
 end

@@ -20,4 +20,16 @@ describe "deck" do
         end
     end
 
+    describe "#draw_card" do 
+        deck2 = Deck.new 
+        it "Draws n cards out of the deck." do 
+            expect(deck2.draw_card(1)).to be_an_instance_of(Array)
+        end 
+
+        it "Should remove 1 card out of the deck when n = 1" do
+            expect(deck2.deck.length).to eq(39)
+        end
+
+    end
+
 end
