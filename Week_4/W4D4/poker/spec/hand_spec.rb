@@ -5,7 +5,9 @@ require 'rspec'
 describe "Hand"
 
     describe "#initialize" do
-        let(:deck) {double("deck", :draw_card => [1,2,3,4,5])}
+        let(:card) {double("card", :val => 1, :suit => :spade)}
+        let(:deck) {double("deck", :draw_card => [card,card,card,card,card])}
+        
         subject(:hand){Hand.new(deck)}
 
         it "Takes deck as arguments and initiate @hand to be array of 5 cards" do 
