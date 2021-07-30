@@ -7,9 +7,11 @@ class Hand
         @hand = deck.draw_card(5).sort
         @deck = deck 
     end
+
     def add_card
         #sort
     end
+    
     def hand_val 
         points = [straight_flush, four_kind, fullhouse, flush, straight, three_kind, two_pair, pair]
     end

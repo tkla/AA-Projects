@@ -2,21 +2,23 @@ require "deck.rb"
 require "rspec"
 
 describe "deck" do
-    subject(:deck) { Deck.new }
-
+    let(:deck) { Deck.new }
     describe "#initialize" do
+       
         it "creates a new deck" do
-            expect{ Deck.new }.to_not raise_error
+            expect{ deck }.to_not raise_error
         end
 
-        # it "calls #populate_deck" do
-        #     allow(subject).to receive(:populate_deck) 
-        # end
+        it "calls #populate_deck" do
+            #allow(deck).to receive(:populate_deck).and_return([1,2])
+            expect(deck).to receive(:populate_deck)
+            deck.send(:initialize)
+        end
     end
 
     describe "#populate" do
         it "fills deck instance variable with 40 cards" do
-            expect(subject.deck.length).to eq(40)
+            expect(deck.deck.length).to eq(40)
         end
     end
 

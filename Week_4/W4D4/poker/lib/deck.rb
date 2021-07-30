@@ -1,5 +1,4 @@
 require_relative "card.rb"
-
 class Deck
 
     attr_reader :deck
@@ -9,6 +8,7 @@ class Deck
     def initialize
         @deck = []
         populate_deck
+
     end
 
     def populate_deck
