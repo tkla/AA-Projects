@@ -20,6 +20,7 @@ class Node
 end
 
 class LinkedList
+  include Enumerable 
   def initialize
     @head = Node.new
     @tail = Node.new
@@ -39,7 +40,7 @@ class LinkedList
   end
 
   def empty?
-      @tail.prev == @head && @head.next == @tail
+    @tail.prev == @head 
   end
 
   def get(key)
