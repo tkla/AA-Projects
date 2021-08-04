@@ -20,7 +20,7 @@ CREATE TABLE question_follows (
     questions_id INTEGER,
     user_id INTEGER,
 
-    FOREIGN KEY (questions_id) REFERENCES question(id),
+    FOREIGN KEY (questions_id) REFERENCES questions(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -31,8 +31,8 @@ CREATE TABLE replies (
     user_id INTEGER NOT NULL,
     body TEXT,
 
+    FOREIGN KEY (questions_id) REFERENCES questions(id),
     FOREIGN KEY (parent_reply_id) REFERENCES replies(id),
-    FOREIGN KEY (questions_id) REFERENCES question(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -41,7 +41,7 @@ CREATE TABLE questions_like (
     questions_id INTEGER,
     user_id INTEGER,
 
-    FOREIGN KEY (questions_id) REFERENCES question(id),
+    FOREIGN KEY (questions_id) REFERENCES questions(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -51,18 +51,18 @@ VALUES
     ('Bob', 'Smith'),
     ('Mike', 'Bob');
 
-INSERT 
+INSERT INTO
     questions (title, body, user_id)
 VALUES
     ('what', 'example body', (SELECT id FROM users WHERE fname = 'Bob'));
 
 
-INSERT
+INSERT INTO
     question_follows (questions_id, user_id)
 VALUES
-    (1,(SELECT id FROM users WHERE fname = 'Mike'));
+    ((SELECT id FROM questions WHERE user_id = 1 LIMIT 1),(SELECT id FROM users WHERE fname = 'Mike' LIMIT 1));
 
-INSERT
+INSERT INTO
     replies (questions_id, parent_reply_id, user_id, body)
 VALUES
     (1, NULL, 2, 'this is wrong'),
