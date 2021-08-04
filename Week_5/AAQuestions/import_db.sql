@@ -1,3 +1,9 @@
+DROP TABLE IF EXISTS question_follows;
+DROP TABLE IF EXISTS questions_like;
+DROP TABLE IF EXISTS replies;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS users;
+
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE users (
@@ -56,11 +62,10 @@ INSERT INTO
 VALUES
     ('what', 'example body', (SELECT id FROM users WHERE fname = 'Bob'));
 
-
 INSERT INTO
     question_follows (questions_id, user_id)
 VALUES
-    ((SELECT id FROM questions WHERE user_id = 1 LIMIT 1),(SELECT id FROM users WHERE fname = 'Mike' LIMIT 1));
+    ((SELECT id FROM questions WHERE user_id = 1 LIMIT 1), (SELECT id FROM users WHERE fname = 'Mike' LIMIT 1));
 
 INSERT INTO
     replies (questions_id, parent_reply_id, user_id, body)
