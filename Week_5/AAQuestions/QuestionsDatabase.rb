@@ -1,5 +1,6 @@
 require 'sqlite3'
 require 'singleton'
+
 class QuestionsDatabase < SQLite3::Database
     include Singleton
 
@@ -55,6 +56,11 @@ class User
     def authored_questions
         Question.find_by_author_id(@id)
     end
+
+    def authored_replies
+        Reply.find_by_user_id(@id)
+    end
+    
 end
 
 class Question 
@@ -108,24 +114,55 @@ class Question
         
         Question.new(questions.first)
     end
+
+    def author
+        User.find_by_id(@user_id)
+    end
+
+    def replies
+        Reply.find_by_question_id(@id)
+    end
 end
 
 class QuestionFollow 
-    attr_accessor :id, :questions_id, :user_id
+    attr_accessor :id, :question_id, :user_id
 
     def initialize(options)
         @id = options['id']
-        @questions_id = options['questions_id']
+        @question_id = options['question_id']
         @user_id = options['users_id']
+    end
+
+    def self.followers_for_question_id(question_id)
+        followers = QuestionsDatabase.instance.execute(<<-SQL, question_id)
+            SELECT 
+                users.id, users.fname, users.lname
+            FROM 
+                question_follows
+            JOIN users
+            ON users.id = question_follows.user_id
+            WHERE 
+                question_follows.question_id = ?;
+            SQL
+        return nil unless followers.length > 0
+        followers.map do |hash|
+            User.new(hash)
+        end
+    end
+
+    def self.followed_questions_for_user_id(user_id)
+        SELECT 
+            questions.title, questions.body, questions.user_id
+        FROM
     end
 
 end 
 
 class QuestionLike
-    attr_accessor :id, :questions_id, :user_id 
+    attr_accessor :id, :question_id, :user_id 
     def initialize(options)
         @id = options['id']
-        @questions_id = options['questions_id']
+        @question_id = options['question_id']
         @user_id = options['user_id']
 
     end
@@ -143,13 +180,15 @@ class QuestionLike
         
         QuestionLike.new(questions_like.first)
     end
+
+
 end 
 
 class Reply
-    attr_accessor :id, :questions_id, :parent_reply_id, :user_id, :body 
+    attr_accessor :id, :question_id, :parent_reply_id, :user_id, :body 
     def initialize(options)
         @id = options['id']
-        @questions_id = options['questions_id']
+        @question_id = options['question_id']
         @parent_reply_id = options['parent_reply_id']
         @user_id = options['user_id']
         @body = options['body']
@@ -162,7 +201,7 @@ class Reply
             FROM
                 replies 
             WHERE
-                questions_id = ?
+                question_id = ?
         SQL
         return nil unless replies.length > 0
         
@@ -197,6 +236,33 @@ class Reply
         SQL
         return nil unless replies.length > 0
         
-        Reply.new(replies.first)
+        replies.map { |r| Reply.new(r) }
     end
+
+    def author
+        User.find_by_id(@user_id)
+    end
+
+    def question
+        Question.find_by_id(@question_id)
+    end
+
+    def parent_reply
+        Reply.find_by_id(@parent_reply_id)
+    end
+    #(SELECT * FROM replies WHERE parent_reply_id = id)
+    def child_replies
+        replies = QuestionsDatabase.instance.execute(<<-SQL, id)
+            SELECT
+                *
+            FROM
+                replies 
+            WHERE
+                parent_reply_id = ?
+        SQL
+        return nil unless replies.length > 0
+        
+        replies.map { |r| Reply.new(r) }
+    end
+
 end

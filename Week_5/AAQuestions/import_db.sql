@@ -23,31 +23,31 @@ CREATE TABLE questions (
 
 CREATE TABLE question_follows (
     id INTEGER PRIMARY KEY,
-    questions_id INTEGER,
+    question_id INTEGER,
     user_id INTEGER,
 
-    FOREIGN KEY (questions_id) REFERENCES questions(id),
+    FOREIGN KEY (question_id) REFERENCES questions(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE replies (
     id INTEGER PRIMARY KEY,
-    questions_id INTEGER NOT NULL,
+    question_id INTEGER NOT NULL,
     parent_reply_id INTEGER,
     user_id INTEGER NOT NULL,
     body TEXT,
 
-    FOREIGN KEY (questions_id) REFERENCES questions(id),
+    FOREIGN KEY (question_id) REFERENCES questions(id),
     FOREIGN KEY (parent_reply_id) REFERENCES replies(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE questions_like (
     id INTEGER PRIMARY KEY,
-    questions_id INTEGER,
+    question_id INTEGER,
     user_id INTEGER,
 
-    FOREIGN KEY (questions_id) REFERENCES questions(id),
+    FOREIGN KEY (question_id) REFERENCES questions(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -63,17 +63,17 @@ VALUES
     ('what', 'example body', (SELECT id FROM users WHERE fname = 'Bob'));
 
 INSERT INTO
-    questions_like (questions_id, user_id)
+    questions_like (question_id, user_id)
 VALUES
     (1,2);
 
 INSERT INTO
-    question_follows (questions_id, user_id)
+    question_follows (question_id, user_id)
 VALUES
     ((SELECT id FROM questions WHERE user_id = 1 LIMIT 1), (SELECT id FROM users WHERE fname = 'Mike' LIMIT 1));
 
 INSERT INTO
-    replies (questions_id, parent_reply_id, user_id, body)
+    replies (question_id, parent_reply_id, user_id, body)
 VALUES
     (1, NULL, 2, 'this is wrong'),
     (1, 1, 1, 'no');
