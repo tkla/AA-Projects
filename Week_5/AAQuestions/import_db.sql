@@ -63,6 +63,11 @@ VALUES
     ('what', 'example body', (SELECT id FROM users WHERE fname = 'Bob'));
 
 INSERT INTO
+    questions_like (questions_id, user_id)
+VALUES
+    (1,2);
+
+INSERT INTO
     question_follows (questions_id, user_id)
 VALUES
     ((SELECT id FROM questions WHERE user_id = 1 LIMIT 1), (SELECT id FROM users WHERE fname = 'Mike' LIMIT 1));
