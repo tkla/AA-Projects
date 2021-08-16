@@ -5,23 +5,20 @@ class SessionsController < ApplicationController
     end
 
     def create
-        @user = User.new(user_params)
-        @user.password_digest = BCrypt::Password.create(@user.password)
-        begin 
-            @user.reset_session_token!
-            if @user.save
-                redirect_to cats_url
-            else
-                render :new
-            end
-        rescue StandardError
-            render :new
+        @user = User.find_by_credentials(user_params[:username], user_params[:password])
+
+        if @user == nil 
+            redirect_to users_url 
+        else 
+            login_user!(@user)
+            redirect_to cats_url 
         end
 
     end
 
     def destroy
-        
+        logout_user!
+        render :new 
     end
 
     private

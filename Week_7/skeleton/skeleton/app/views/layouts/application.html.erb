@@ -9,6 +9,11 @@
   </head>
 
   <body>
+    <form action="<%= sessions_url(@user)%>" method="post">
+    <input type='hidden' name='_method' value='delete'>
+      <input type='submit' name='logout' value='logout'>
+    </form>
+
     <%= yield %>
   </body>
 </html>
