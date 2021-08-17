@@ -1,11 +1,15 @@
 class SessionsController < ApplicationController
+    before_action :require_logged_out, only: [:new, :create]
+
     def new
         @user = User.new
         render :new
     end
 
     def create
-        @user = User.find_by_credentials(user_params[:username], user_params[:password])
+        @user = User.find_by_credentials(
+            user_params[:username], 
+            user_params[:password])
 
         if @user == nil 
             redirect_to users_url 
