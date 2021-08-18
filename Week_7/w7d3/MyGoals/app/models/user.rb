@@ -35,4 +35,9 @@ class User < ApplicationRecord
         self.save!
         self.session_token 
     end
+
+    def show 
+        @user = current_user
+        redirect_to user_url(@user)
+    end
 end
