@@ -14,6 +14,10 @@ RSpec.describe User, type: :model do
 
   #Associations -Todo
 
+  before :each do 
+    @user = FactoryBot.build(:user)
+  end
+
   describe 'find_by_credentials' do 
     it 'should return a user if given the correct credentials' do 
       user = User.find_by_credentials('Dog', 'password')
@@ -32,10 +36,23 @@ RSpec.describe User, type: :model do
       expect(user.password).to eq('password')
       expect(user.password_digest).not_to eq('password')
     end
-    it 'should encrypt password with bcrypt'
+
+    it 'should encrypt password with bcrypt' do
       expect(BCrypt::Password).to recieve(:create).with('password')
       FactoryBot.build(:user, password: 'password')
+    end
   end
-end
   
+  describe 'reset_session_token!' do 
+    it 'should SecureRandom::urlsafe_64 to reset session_token' do
+      old = @user.session_token
+      expect(@user.reset_session_token!).not_to eq(old)
+    end
+
+    it 'Should return the session_token and saved to DB' do
+      expect(@user.reset_session_token!).to eq(@user.session_token)
+    end
+  end
+
+
 end
