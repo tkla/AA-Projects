@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
     #crrlll 
-    helper_method :current_user
+    helper_method :current_user, :logged_in?
 
     def current_user 
         return nil if session[:session_token].nil?
@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     end
 
     def require_logged_out?
-        redirect_to new_user_url if logged_in?
+        redirect_to users_url if logged_in?
     end
 
     def logged_in?

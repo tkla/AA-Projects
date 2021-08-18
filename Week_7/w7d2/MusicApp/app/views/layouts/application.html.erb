@@ -11,6 +11,21 @@
 
   <body>
 
+    <% if logged_in? &&  %>
+      <h3>Welcome, <%= current_user.email %>!</h3>
+      <form action="<%=session_url%>" method="POST">
+      <input type="hidden" name="_method" value="delete">
+          <%=auth_token%>
+          <input type="submit" value="Logout">
+      </form>
+    <% else %>
+      <a href="<%=new_user_url %>">Sign Up</a>
+      <br>
+      <a href="<%=new_session_url %>">Login</a>
+    <% end %>
+
+    
+
     <%= yield %>
   </body>
 </html>

@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    before_action :require_logged_out?, except: :show
+
     def new 
         @user = User.new 
         render :new 
@@ -17,6 +19,11 @@ class UsersController < ApplicationController
     def show 
         @user = current_user 
         render :show 
+    end
+
+    def index 
+        @user = User.new 
+        render :index 
     end
 
     private
