@@ -1,0 +1,8 @@
+<%=current_user.email%>
+<br>
+
+<form action="<%=session_url%>" method="POST">
+<input type="hidden" name="_method" value="delete">
+    <%=auth_token%>
+    <input type="submit" value="Logout">
+</form>
