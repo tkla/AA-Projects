@@ -13,7 +13,8 @@ RSpec.describe User, type: :model do
   it {should validate_presence_of(:session_token)}
 
   #Associations -Todo
-
+  it { should have_many(:goals)}
+  
   before :each do 
     @user = FactoryBot.build(:user)
   end

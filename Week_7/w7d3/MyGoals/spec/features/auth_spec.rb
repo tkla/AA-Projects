@@ -30,7 +30,4 @@ feature 'Sign Up' do
         expect(current_path).to eq(user_path(user))
     end
 
-
-
-
 end
