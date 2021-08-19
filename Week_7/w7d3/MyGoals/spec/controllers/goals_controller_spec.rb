@@ -10,14 +10,15 @@ RSpec.describe GoalsController, type: :controller do
     end
 
     describe "POST CREATE" do 
-        context "With valid params" do 
-            let(:goal_params) do {
+        let(:goal_params) do {
                 goal: { 
                     title: "Score", 
                     author_id: 1
                 }
             }
-
+        context "With valid params" do 
+            
+            end 
             it "Should add a goal for a user" do 
                 post :create, params: :goal_params 
                 goal = Goal.find_by(title: "Score", author_id: 1)
@@ -27,10 +28,12 @@ RSpec.describe GoalsController, type: :controller do
 
         context "With invalid params" do 
             it "validates presence of author and title and render new template with errors" do
-                post :create, params: {goal: {title: "", author_id: "" }}
+                post :create, params: :goal_params
                 expect(response).to render_template(:new) 
                 expect(flash[:error]).to be_present  
             end 
         end
     end
+
+
 end
