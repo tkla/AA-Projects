@@ -1,0 +1,21 @@
+<h1>Subreddits</h1>
+<%if logged_in?%>
+    <a href="<%=new_user_sub_url(current_user)%>">Create new Subreddit </a>
+<%end%>
+
+
+<%@subs.each do |sub|%>
+    <ul>
+        <li> Title: <%=sub.title%> </li>
+        <li> Description: <%= sub.description%> </li>
+        <li> Moderator: <%= sub.creator.username %> </li>
+
+        <% if logged_in?%>
+            <form action="<%=sub_url(sub)%>" method="post">
+                <%=auth_token%>
+                <input type="hidden" name="_method" value="delete">
+                <input type="submit" value="Delete Subreddit"> 
+            </form>
+        <%end%>
+    </ul>
+<%end%>

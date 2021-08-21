@@ -1,0 +1,21 @@
+/* PHASE 1: Header */
+
+body {
+    font-weight: normal; 
+    font-family: "Space Grotesk", serif; 
+    font-size: 1em;
+    display: inline-block;
+}
+
+.header{
+    display: inline-block;
+}
+
+.header-nav{
+}
+
+.header-logo{
+}
+
+.header-list{
+}
