@@ -1,6 +1,6 @@
 class SubsController < ApplicationController
-    before_action :is_moderator?, only: [:edit, :destroy, :update]
     before_action :require_logged_in, only: [:new, :destroy, :edit]
+    before_action :is_moderator?, only: [:edit, :destroy, :update]
 
     def new 
         @subs = Sub.new 
