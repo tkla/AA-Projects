@@ -3,19 +3,45 @@
 body {
     font-weight: normal; 
     font-family: "Space Grotesk", serif; 
-    font-size: 1em;
-    display: inline-block;
+    font-size: 1.2em;
+    color: white;
+    display: block;
 }
 
 .header{
-    display: inline-block;
+    display: block;
+    background: red;
+
 }
 
 .header-nav{
+    display: flex;
+    justify-content: flex-start;
+    width: 900px;
+    margin: auto;
 }
 
 .header-logo{
+    padding: 5px;
+    border-top:    0;
+    border-right:  1px solid white;
+    border-bottom: 0;
+    border-left:   1px solid white;   
 }
 
 .header-list{
+    margin-left: auto;
+    display: flex;
+}
+
+.header-list > li {
+    padding: 5px;
+    border-top:    0;
+    border-right:  1px solid white;
+    border-bottom: 0;
+    border-left:   1px solid white;
+}
+
+.header-list > li:hover{
+    background: black;
 }

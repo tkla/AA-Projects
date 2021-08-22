@@ -38,5 +38,5 @@ button {
 
 button,
 input[type="submit"] {
-
+    appearance: none 
 }
