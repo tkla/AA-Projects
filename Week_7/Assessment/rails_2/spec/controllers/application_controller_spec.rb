@@ -6,6 +6,4 @@ RSpec.describe ApplicationController, type: :controller do
       expect(ApplicationController.new.forgery_protection_strategy).not_to be_nil
     end
   end
-
-
 end
