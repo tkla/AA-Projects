@@ -9,9 +9,14 @@ if (typeof window === 'undefined'){
  * and two white pieces at [3, 3] and [4, 4]
  */
 function _makeGrid () {
+   const grid = Array.from( {length: 8}, () => Array.from({length: 8}))
+   grid[3][3] = new Piece('white');
+   grid[4][4] = new Piece('white');
+   grid[3][4] = new Piece('black');
+   grid[4][3] = new Piece('black');
+  return grid; 
 }
-
-/**
+/**†
  * Constructs a Board with a starting grid set up.
  */
 function Board () {
@@ -28,6 +33,7 @@ Board.DIRS = [
  * Checks if a given position is on the Board.
  */
 Board.prototype.isValidPos = function (pos) {
+  
 };
 
 /**
