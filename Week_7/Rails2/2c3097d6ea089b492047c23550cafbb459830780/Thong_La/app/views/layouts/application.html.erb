@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Poetry App</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+
+    <% if logged_in?%> 
+      <form action="<%=session_url%>" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <%=auth_token%> 
+        <input type="submit" value="Sign Out">
+      </form>
+    <%else%>
+      <a href="<%=new_session_url%>">Sign In</a>
+    
+    <%end%>
+
+    <%if flash[:errors]%>
+      <p> <%=flash[:errors]%> </p>
+    <%end%>
+
+    <%= yield %>
+  </body>
+</html>
