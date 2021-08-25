@@ -33,7 +33,16 @@ Board.DIRS = [
  * Checks if a given position is on the Board.
  */
 Board.prototype.isValidPos = function (pos) {
-  
+  let [row, col] = pos;
+  if (row > 7 || row < 0){
+    return false; 
+  }
+
+  if (col > 7 || col < 0){
+    return false; 
+  }
+
+  return true;
 };
 
 /**
@@ -41,6 +50,12 @@ Board.prototype.isValidPos = function (pos) {
  * throwing an Error if the position is invalid.
  */
 Board.prototype.getPiece = function (pos) {
+  let [row, col] = pos;
+  if (this.isValidPos(pos)){
+    return this.grid[row][col];
+  } else {
+    throw new Error('Not valid pos!');
+  }
 };
 
 /**
@@ -48,18 +63,27 @@ Board.prototype.getPiece = function (pos) {
  * matches a given color.
  */
 Board.prototype.isMine = function (pos, color) {
+  if (this.isValidPos(pos)){
+    if (this.getPiece(pos)){
+      return this.getPiece(pos).color === color;
+    }else {
+      return false;
+    }
+  } 
+  return false;
 };
 
 /**
  * Checks if a given position has a piece on it.
  */
 Board.prototype.isOccupied = function (pos) {
+  return (this.getPiece(pos)) ? true :  false;
 };
 
 /**
  * Recursively follows a direction away from a starting position, adding each
  * piece of the opposite color until hitting another piece of the current color.
- * It then returns an array of all pieces between the starting position and
+ * It then returns an array of all pieces' positions between the starting position and
  * ending position.
  *
  * Returns an empty array if it reaches the end of the board before finding another piece
@@ -70,7 +94,33 @@ Board.prototype.isOccupied = function (pos) {
  * Returns empty array if no pieces of the opposite color are found.
  */
 Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
+  let [row, col] = pos; 
+  let [dirRow, dirCol] = dir;
+  let newPos = [row+dirRow, col+dirCol];
+
+  if (!this.isValidPos(newPos)){
+    return [];
+  }
+
+  if (!this.isOccupied(newPos)){
+    return [];
+  }
+  
+  if (this.isMine(newPos, color)){
+    return [];
+  } else {
+    piecesToFlip = [newPos];
+  }
+
+  return piecesToFlip.concat(this._positionsToFlip(newPos, color, dir, piecesToFlip));
 };
+
+
+// Check Base cases 
+// Create empty piecesToFlip
+// Add current pos to piecesToFlip if color!= color 
+// Recur, piecesToFlip.concat(recur)
+
 
 /**
  * Checks that a position is not already occupied and that the color
