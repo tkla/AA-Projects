@@ -93,26 +93,29 @@ Board.prototype.isOccupied = function (pos) {
  *
  * Returns empty array if no pieces of the opposite color are found.
  */
-Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
+Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip, orgPos){
   let [row, col] = pos; 
   let [dirRow, dirCol] = dir;
   let newPos = [row+dirRow, col+dirCol];
+  
 
   if (!this.isValidPos(newPos)){
-    return [];
+    return piecesToFlip = [];
   }
 
   if (!this.isOccupied(newPos)){
-    return [];
+    return piecesToFlip = [];
   }
-  
-  if (this.isMine(newPos, color)){
-    return [];
-  } else {
-    piecesToFlip = [newPos];
-  }
+  piecesToFlip = [];
+  if (orgPos) {
+    if (this.isMine(pos, color)){
+      return [];
+    } else {
+      piecesToFlip = [pos];
+      
+  }}
 
-  return piecesToFlip.concat(this._positionsToFlip(newPos, color, dir, piecesToFlip));
+  return piecesToFlip.concat(this._positionsToFlip(newPos, color, dir, piecesToFlip, pos));
 };
 
 
@@ -128,6 +131,22 @@ Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
  * color being flipped.
  */
 Board.prototype.validMove = function (pos, color) {
+  if (this.isOccupied(pos)) {
+    return false; 
+  }
+
+    // console.log(this._positionsToFlip(pos, color, dir));
+
+    for (let i = 0; i < Board.DIRS.length; i++) {
+      let arr = this._positionsToFlip(pos, color, Board.DIRS[i]);
+      if ( arr.length !== 0 ) {
+        return true;
+      }
+    }
+  return false;
+  //iterate through board.DIRS
+  // for each dir call _positionstoflip
+  // if any return non empty array return true 
 };
 
 /**
@@ -137,6 +156,19 @@ Board.prototype.validMove = function (pos, color) {
  * Throws an error if the position represents an invalid move.
  */
 Board.prototype.placePiece = function (pos, color) {
+  if (this.validMove(pos, color)) {
+    for (let i = 0; i < Board.DIRS.length; i++) {
+      let arr = this._positionsToFlip(pos, color, Board.DIRS[i]);
+      if ( arr.length !== 0 ) {
+        arr.forEach (piece => {
+          let [row,col] = piece;
+          if (this.grid[row][col]) {
+            this.grid[row][col].flip();
+          }
+        }); 
+      }
+    }
+  }
 };
 
 /**
