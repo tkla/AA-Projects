@@ -159,15 +159,15 @@ Board.prototype.placePiece = function (pos, color) {
   if (!this.validMove(pos, color)) {
     throw new Error('Invalid move!');
   }
+
   this.grid[pos[0]][pos[1]] = new Piece(color);
+  
   for (let i = 0; i < Board.DIRS.length; i++) {
     let arr = this._positionsToFlip(pos, color, Board.DIRS[i]);
     if ( arr.length !== 0 ) {
       arr.forEach (piece => {
         let [row,col] = piece;
-        if (this.grid[row][col]) {
           this.grid[row][col].flip();
-        }
       }); 
     }
   }
