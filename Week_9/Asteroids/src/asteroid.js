@@ -5,7 +5,7 @@ function Asteroid(options) {
   this.pos = options.pos;
   this.color = "red";
   this.radius = 10;
-  this.vec = Util.randomVec(500);
+  this.vel = Util.randomVec(10);
   MovingObject.call(this, this);
 }
 

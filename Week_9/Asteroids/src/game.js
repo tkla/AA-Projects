@@ -6,6 +6,7 @@ function Game(ctx){
   this.NUM_ASTEROIDS = 3;
   this.asteroids = [];
   this.addAsteroids();
+  this.draw(ctx);
 }
 
 Game.prototype.randomPosition = function() {
@@ -17,9 +18,18 @@ Game.prototype.randomPosition = function() {
 Game.prototype.addAsteroids = function(){
   for(let i = 0; i < this.NUM_ASTEROIDS; i++){
     let a = new Asteroid({pos: this.randomPosition()});
-    console.log(a);
     this.asteroids.push(a);
   }
+}
+
+Game.prototype.draw = function(ctx){
+  ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
+
+  this.asteroids.forEach( a => a.draw(ctx));
+}
+
+Game.prototype.moveObjects = function() {
+  this.asteroids.forEach( a => a.move());
 }
 
 module.exports = Game;
