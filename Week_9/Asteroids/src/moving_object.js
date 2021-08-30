@@ -28,7 +28,12 @@ MovingObject.prototype.isCollideWith = function(other) {
     let y_2 = other.pos[1];
     let dist = Math.sqrt((x_1 - x_2) ** 2 + (y_1 - y_2) ** 2);
 
-    return (dist < ((this.radius + other.radius) / 2));
+    return (dist < ((this.radius + other.radius)));
+}
+
+MovingObject.prototype.collideWith = function(otherObject) {
+    this.game.remove(otherObject);
+    this.game.remove(this);
 }
 
 module.exports = MovingObject;
