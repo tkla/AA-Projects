@@ -7,6 +7,13 @@ const Util = {
   scale(vec, m) {
     return [vec[0] * m, vec[1] * m];
   }
+  
+  //inherits(parentClass, childClass) {
+  //   function Surrogate() {};
+  //   Surrogate.prototype = parentClass.prototype;
+  //   childClass.prototype = new Surrogate();
+  //   childClass.prototype.constructor = childClass;
+  // }
 };
 
 Util.inherits = function(parentClass, childClass) {
@@ -17,5 +24,5 @@ Util.inherits = function(parentClass, childClass) {
 }
 
 
-export default{Util};
+//export default{Util};
 module.exports = Util;

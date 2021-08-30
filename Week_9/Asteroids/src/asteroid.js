@@ -1,13 +1,14 @@
-import MovingObject from './moving_object';
-import Util from './util';
+const MovingObject = require('./moving_object');
+const Util = require('./util');
 
-function Asteroid(pos) {
-  Util.inherits(MovingObject, this);
-  this.pos = pos;
+function Asteroid(options) {
+  this.pos = options.pos;
   this.color = "red";
   this.radius = 10;
   this.vec = Util.randomVec(500);
   MovingObject.call(this, this);
 }
+
+Util.inherits(MovingObject, Asteroid);
 
 module.exports = Asteroid;
