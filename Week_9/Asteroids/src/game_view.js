@@ -11,12 +11,12 @@ GameView.prototype.start = function () {
 
     
     setInterval(function(){
-        thisGame.moveObjects();
+        thisGame.step();
     }, 20);
     
     setInterval(function(){
-        console.log(thisGame);
-        console.log(thisGameView);
+        // console.log(thisGame);
+        // console.log(thisGameView);
         thisGame.draw(thisGameView.ctx);
     }, 20);
 }
