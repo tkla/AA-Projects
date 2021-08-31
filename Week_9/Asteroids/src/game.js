@@ -30,10 +30,12 @@ Game.prototype.addAsteroids = function(){
 Game.prototype.draw = function(ctx){
   ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
 
+  this.asteroids.forEach(a => a.draw(ctx));
   this.everything.forEach( a => a.draw(ctx));
 }
 
 Game.prototype.moveObjects = function() {
+  this.asteroids.forEach(a => a.move());
   this.everything.forEach( a => a.move());
 }
 
@@ -55,10 +57,11 @@ Game.prototype.wrap = function(pos) {
 }
 
 Game.prototype.checkCollisions = function() {
-  console.log(this.everything)
   this.asteroids.forEach(a => {
-    if (this.ship.isCollideWith(a)){
-      this.ship.collideWith(a);
+    for(let i = 0; i < this.everything.length; i++){
+      if (a.isCollideWith(this.everything[i])){
+        a.collideWith(this.everything[i]);
+      }
     }
   })
 }
@@ -69,14 +72,19 @@ Game.prototype.step = function() {
 }
 
 Game.prototype.remove = function(asteroid){
-  let asteroidIdx = this.everything.indexOf(asteroid);
+  if (asteroid instanceof Asteroid){
+    let asteroidIdx = this.asteroids.indexOf(asteroid);
+    this.asteroids.splice(asteroidIdx, 1);
+  }
 
-  this.everything.splice(asteroidIdx, 1);
+  if (asteroid instanceof Ship){
+    this.ship.pos = this.randomPosition();
+  }
+
 }
 
 Game.prototype.allObjects = function() {
   let all = [];
-  all = all.concat(this.asteroids);
   all.push(this.ship);
   return all;
 }

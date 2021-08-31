@@ -33,6 +33,7 @@ MovingObject.prototype.isCollideWith = function(other) {
 
 MovingObject.prototype.collideWith = function(otherObject) {
     this.game.remove(otherObject);
+    //this.pos = [-1000, -1000];
     this.game.remove(this);
 }
 
