@@ -1,16 +1,64 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./frontend/api_util.js":
+/*!******************************!*\
+  !*** ./frontend/api_util.js ***!
+  \******************************/
+/***/ ((module) => {
+
+const APIUtil = {
+    followUser: id => {
+        return $.ajax({
+            url: `/users/${id}/follow`,
+            method: 'post',
+            
+            success: function() {
+                
+            },
+            error: function () {
+
+            },
+
+            dataType: 'JSON',
+        })
+    },
+  
+    unfollowUser: id => {
+        return $.ajax({
+            url: `/users/${id}/follow`,
+            method: 'delete',
+            
+            success: function() {
+
+            },
+            error: function () {
+
+            },
+
+            dataType: 'JSON',
+        })
+    
+    }
+  };
+  
+  module.exports = APIUtil;
+
+/***/ }),
+
 /***/ "./frontend/follow_toggle.js":
 /*!***********************************!*\
   !*** ./frontend/follow_toggle.js ***!
   \***********************************/
-/***/ ((module) => {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+const HandleFollow = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
 
 class FollowToggle {
     constructor(el) {
         this.userId = el.getAttribute("data-user-id");
         this.followState = el.getAttribute("data-initial-follow-state");
+
         this.el = el;
         this.render();
         this.handleClick();
@@ -18,40 +66,41 @@ class FollowToggle {
 
     render() {
         let text = "";
-        if (this.el.getAttribute)
+
         if (this.followState === "followed") {
             text = "Unfollow!";
-        } else {
+            $(".follow-toggle").removeAttr("disabled");
+        } else if (this.followState === "unfollowed") {
             text = "Follow!";
+            $(".follow-toggle").removeAttr("disabled");
+        } else {
+            $(".follow-toggle").prop("disabled", "true");
+            text = "Processing";
         }
-        this.el.append(text);
+        this.el.innerHTML = text;
     }
 
     handleClick() {
         let that = this;
         this.el.addEventListener("click", function(event) {
             event.preventDefault();
-            $.ajax({
-                url: `/users/${that.userId}/follow`,
-                method: 'post',
-                success: function() {
-                    if (that.followState === "followed") {
-                        that.followState = "unfollowed";
-                    } else {
-                        that.followState = "followed";
-                    };
+            
+            if (that.followState === "unfollowed"){
+                that.followState = "following";
+                that.render();
+
+                HandleFollow.followUser(that.userId).then( response =>{
+                    that.followState = "followed";
                     that.render();
-                },
-                error: function () {
-                    if (that.followState === "followed") {
-                        that.followState = "unfollowed";
-                    } else {
-                        that.followState = "followed";
-                    };
+                });
+            }else{
+                that.followState = "unfollowing";
+                that.render();
+                HandleFollow.unfollowUser(that.userId).then(response =>{ 
+                    that.followState = "unfollowed";
                     that.render();
-                },
-                dataType: 'JSON',
-            })
+                });
+            }
         })
     }
 }
@@ -98,7 +147,7 @@ const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/foll
 document.addEventListener("DOMContentLoaded", function() {
     $(".follow-toggle").each(function(i, el){
         const toggle = new FollowToggle(el);
-        console.log("Hey");
+        
     })
 });
 })();
