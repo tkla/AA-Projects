@@ -1,5 +1,7 @@
 import React from 'react'
 import * as Minesweeper from './minesweeper'
+import Board from './board'
+
 
 export default class Game extends React.Component{
 
@@ -7,7 +9,7 @@ export default class Game extends React.Component{
         super()
 
         this.state = {
-            board: new Minesweeper.Board 
+            board: new Minesweeper.Board(3, 1)
         }
 
         this.updateGame = this.updateGame.bind(this)
@@ -18,6 +20,7 @@ export default class Game extends React.Component{
     }
 
     render(){
-        return (<Minesweeper.Board property={this.state.board} property={this.updateGame}/>)
+        return (<Board board={this.state.board} updateGame={this.updateGame}/>)
+        
     }
 }

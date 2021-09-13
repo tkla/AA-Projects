@@ -1,0 +1,12 @@
+.tile {
+    border-style: outset;
+    text-align: center;
+    
+}
+
+.board {
+    display: grid;
+    width: 200px;
+    height: 200px;
+    grid-template: auto auto auto / auto auto auto;
+}
