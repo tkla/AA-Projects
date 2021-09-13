@@ -33,7 +33,9 @@ export default class Tile extends React.Component {
     }
 
     handleKeyDown(e){
-        if(e.key === 'altKey'){
+        alert(e.key)
+        if(e.key === 'a'){
+            
             this.alt = true;
         }
     }
@@ -45,8 +47,8 @@ export default class Tile extends React.Component {
     render(){
         return (<div 
             onClick={this.handleClick} 
-            onKeyDown={this.handleKeyDown}
-            onlyKeyUp={this.handleKeyUp}
+            onKeyPress={e => console.log(e.key)}
+            onKeyUp={this.handleKeyUp}
             className='tile'>{this.getState()}</div>);
     }
 } 
