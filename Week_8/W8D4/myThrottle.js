@@ -6,7 +6,7 @@ Function.prototype.myThrottle= function(interval){
     let tooSoon = false;
     let that = this;
 
-    // returne function
+    // return function
     return function(){
     //     do nothing if tooSoon is true
     //     if tooSoon is false
@@ -16,7 +16,6 @@ Function.prototype.myThrottle= function(interval){
             // use setTimeout to set tooSoon back to false after interval milliseconds
             setTimeout( function(){tooSoon = false}, interval)
             // invoke the original function with the original arguments.
-            //console.log(arguments);
             that(arguments);
         }
     }

@@ -1,0 +1,22 @@
+body {
+    font-family: "Press Start 2P";
+    background-color: cornflowerblue;
+    font-size: 8px;
+}
+
+body:hover {
+    color: white;
+}
+
+#clock {
+    display: grid;
+    grid-template: 100px 100px / 1fr 1fr;
+    margin: 0 200px;
+    border: 5px solid black;
+    align-items: center;
+    padding: 0 28px;
+}
+
+.right {
+    text-align: right;
+}
