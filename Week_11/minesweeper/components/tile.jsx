@@ -4,51 +4,35 @@ export default class Tile extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            bombed: this.props.tile.bombed,
-            explored: this.props.tile.explored,
-            flagged: this.props.tile.flagged
-        }
 
         this.alt = false; 
         this.getState = this.getState.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleKeyUp = this.handleKeyUp.bind(this);
     }
 
     getState(){
-        if (this.state.bombed) {
-            return 'x';
-        } else if (this.state.explored) {
-            return 'e';
-        } else if (this.state.flagged) {
-            return 'f';
+        if (this.props.tile.explored){
+            return "tile"
+        }else {
+            return "tile explored"
         }
-        return ' ';
     }
 
     handleClick(e){
-        this.props.updateGame(this, this.alt);
-    }
-
-    handleKeyDown(e){
-        alert(e.key)
-        if(e.key === 'a'){
-            
-            this.alt = true;
-        }
-    }
-
-    handleKeyUp(){
-        this.alt = false;
+        this.props.updateGame(this, e.altKey);
     }
 
     render(){
-        return (<div 
-            onClick={this.handleClick} 
-            onKeyPress={e => console.log(e.key)}
-            onKeyUp={this.handleKeyUp}
-            className='tile'>{this.getState()}</div>);
+        console.log(this.getState())
+        let test = " "
+        if (this.props.tile.flagged){
+            test = "F"
+        }else if (this.props.tile.explored){
+                test =  this.props.tile.adjacentBombCount();
+        }
+        
+       
+  
+        return (<div onClick={this.handleClick} className={this.getState()}>{test}</div>);
     }
 } 
