@@ -15,5 +15,5 @@
 
 /node_modules
 /yarn-error.log
-
+Gemfile.lock
 .byebug_history
