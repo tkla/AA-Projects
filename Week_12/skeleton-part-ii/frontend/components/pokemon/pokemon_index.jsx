@@ -1,4 +1,6 @@
 import React from 'react';
+import { Route } from "react-router-dom";
+import PokemonDetailContainer from './pokemon_details_container';
 import PokemonIndexItem from './pokemon_index_item';
 
 
@@ -8,7 +10,7 @@ class PokemonIndex extends React.Component{
   }
   
   componentDidMount(){
-    //this.props.requestAllPokemon()
+    this.props.requestAllPokemon()
   }
   
   render(){
@@ -17,6 +19,7 @@ class PokemonIndex extends React.Component{
     ));
 
     return (
+
       <section className="pokedex">
         <ul>{pokemonItems}</ul>
       </section>
