@@ -20,8 +20,6 @@ export default class Greeting extends React.Component {
          </div>
       );
       
-      console.log(this.props.currentUser);
-
       if (this.props.currentUser){
          greeting = (
             <div> 
@@ -34,6 +32,7 @@ export default class Greeting extends React.Component {
       return (
          <div> 
             <span>Welcome sdf!</span>
+            <br/>
             <button onClick={this.handleLogout}>Logout</button>
          </div>
       )
