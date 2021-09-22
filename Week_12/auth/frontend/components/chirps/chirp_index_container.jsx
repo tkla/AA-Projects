@@ -1,4 +1,3 @@
-import React from 'react';
 import ChirpIndex from './chirp_index';
 import { fetchChirps, likeChirp, unLikeChirp } from '../../actions/chirps';
 import { connect } from 'react-redux';

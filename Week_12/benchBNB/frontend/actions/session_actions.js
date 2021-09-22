@@ -20,6 +20,7 @@ export const receiveErrors = errors => ({
 })
 
 export const signUp = user => dispatch => {
+  
   SessionAPI.signUp(user)
     .then(user => dispatch(receiveCurrentUser(user)))
 }
