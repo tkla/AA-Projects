@@ -7,3 +7,20 @@ Export a `PostShow` presentational component that renders a post's information
 props via its container and fetch it once it has successfully mounted to the
 DOM. Additionally, this component should contain a link back to the `PostIndex`.
 */
+
+export default class PostShow extends React.Component {
+
+   componentDidMount(){
+      this.props.fetchPost(this.props.post.id);
+   }
+
+   render(){ 
+      return (
+         <div>
+            <Link to='/'>Index</Link>
+            <p> {this.props.post.title} </p>
+            <p> {this.props.post.body} </p>
+         </div>
+      )
+   }
+}

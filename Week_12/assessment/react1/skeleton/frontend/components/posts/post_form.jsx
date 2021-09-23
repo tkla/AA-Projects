@@ -8,3 +8,47 @@ prop. The form should initialize state to the `post` passed in from props. Use
 controlled inputs and trigger the `action` passed in from the container upon
 submission. Use a text input for the title and a textarea for the body.
 */
+
+export default class PostForm extends React.Component {
+   constructor(props){
+      super(props); 
+      this.state = this.props.post; 
+
+      //this.handleUpdate = this.handleUpdate.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+   }
+
+   update(type){
+      return e => {
+         this.setState({ [type]: e.currentTarget.value })
+      }
+   }
+
+   handleSubmit(){
+      this.props.action(this.state)
+   }
+
+   render(){
+      return(
+            <form onSubmit={this.handleSubmit}>
+               <h1>{this.props.formType}</h1>
+               <label>Title 
+                  <input 
+                     type='text' 
+                     value={this.state.title} 
+                     onChange={this.update('title')}
+                  />
+               </label>
+
+               <label>Body 
+                  <textarea  
+                     value={this.state.body} 
+                     onChange={this.update('body')}
+                  />
+               </label>
+
+               <input type='submit' value={this.props.formType}/>
+            </form>
+      );
+   }
+}

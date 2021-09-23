@@ -25,6 +25,7 @@ export default class Greeting extends React.Component {
          greeting = (
             <div> 
                <span>Welcome {this.props.currentUser.username}!</span>
+               <br/>
                <button onClick={this.handleLogout}>Logout</button>
             </div>
          )

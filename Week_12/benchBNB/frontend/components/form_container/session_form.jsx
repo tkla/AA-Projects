@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router'
 
 export default class SessionForm extends React.Component{
    constructor(props){
@@ -7,7 +8,7 @@ export default class SessionForm extends React.Component{
 
       this.state = {
          username: '',
-         pasword: '',
+         password: '',
          email: '',
       };
 
@@ -16,24 +17,17 @@ export default class SessionForm extends React.Component{
    }
 
    handleSubmit(e){
-      e.preventDefault();
-      const user = Object.assign({}, this.state)
-      this.props.processForm(user);
+      this.props.processForm(this.state);
+      this.setState({
+         username: '',
+         password: '',
+         email: '',
+      })
    }
    
-   handleInput(e){
-      e.preventDefault();
-      //let nextState = Object.assign({}, this.state);
-
-      switch (e.target.id) {
-         case 'username' : 
-            this.setState({username: e.target.value}) ;
-         case 'password':
-            this.setState({password: e.target.value}) ;
-         case 'email':
-            this.setState({email: e.target.value}) ;
-         default: 
-            
+   handleInput(type){
+      return e => {
+         this.setState({ [type]: e.currentTarget.value })
       }
    }
 
@@ -56,26 +50,31 @@ export default class SessionForm extends React.Component{
 
       return (
          <div>
-            <form> 
+            <form onSubmit={this.handleSubmit}> 
                {formHeader}
                <label> Username: 
-                  <input id='username' type='text' value={this.state.username} onChange={this.handleInput}/>
+                  <input type='text' value={this.state.username} onChange={this.handleInput('username')}/>
                </label>
 
                <label> Email: 
-                  <input id='email' type={type} value={this.state.password} onChange={this.handleInput}/>
+                  <input type={type} value={this.state.email} onChange={this.handleInput('email')}/>
                </label>
 
                <label> Password: 
-                  <input id='text' type='text' value={this.state.password} onChange={this.handleInput}/>
+                  <input type='text' value={this.state.password} onChange={this.handleInput('password')}/>
                </label>
 
-               <input type='submit' value="Submit" onSubmit={this.handleSubmit}/>
+               <input type='submit' value="Submit" />
             </form>
 
-            {/* <p>{this.props.errors}</p> */}
-
-            {/* {link} */}
+            <ul>
+               {
+                  this.props.errors.forEach( (error) =>(
+                     <li>{error}</li>
+                  ))
+               }
+            </ul>
+            {link}
          </div>
       )
    }
