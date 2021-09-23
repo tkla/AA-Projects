@@ -16,6 +16,7 @@ export default class Greeting extends React.Component {
       let greeting = (
          <div>
             <Link to='/signup'>Sign Up</Link>
+            <br/>
             <Link to='/login'>Login</Link>
          </div>
       );
@@ -29,12 +30,6 @@ export default class Greeting extends React.Component {
          )
       }
       
-      return (
-         <div> 
-            <span>Welcome sdf!</span>
-            <br/>
-            <button onClick={this.handleLogout}>Logout</button>
-         </div>
-      )
+      return greeting
    }
 }

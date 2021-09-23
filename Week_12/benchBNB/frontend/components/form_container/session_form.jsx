@@ -1,31 +1,57 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 export default class SessionForm extends React.Component{
    constructor(props){
       super(props);
 
       this.state = {
-         username: "",
+         username: '',
          pasword: '',
          email: '',
       };
+
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleInput = this.handleInput.bind(this);
    }
 
    handleSubmit(e){
       e.preventDefault();
-      this.props.processForm(this.state);
+      const user = Object.assign({}, this.state)
+      this.props.processForm(user);
+   }
+   
+   handleInput(e){
+      e.preventDefault();
+      //let nextState = Object.assign({}, this.state);
+
+      switch (e.target.id) {
+         case 'username' : 
+            this.setState({username: e.target.value}) ;
+         case 'password':
+            this.setState({password: e.target.value}) ;
+         case 'email':
+            this.setState({email: e.target.value}) ;
+         default: 
+            
+      }
    }
 
    render(){
-      let formHeader = "";
+      if (this.props.currentUser) {
+         return (
+            <Redirect to='/'/>
+         )
+      }
+
+      let formHeader = <h2>Log in</h2>;
       let type = 'hidden';
+      let link = <Link to='/signup'>Sign Up</Link>;
 
       if (this.props.formType === 'signUp'){
          formHeader = <h2>Sign Up</h2>
          type = 'text'
-      }else {
-         formHeader = <h2>Login</h2>
+         link = <Link to='/login'>Login</Link>
       }
 
       return (
@@ -33,19 +59,23 @@ export default class SessionForm extends React.Component{
             <form> 
                {formHeader}
                <label> Username: 
-                  <input type='text' value={this.state.username}/>
+                  <input id='username' type='text' value={this.state.username} onChange={this.handleInput}/>
                </label>
 
                <label> Email: 
-                  <input type={type} value={this.state.password}/>
+                  <input id='email' type={type} value={this.state.password} onChange={this.handleInput}/>
                </label>
 
                <label> Password: 
-                  <input type='text' value={this.state.password}/>
+                  <input id='text' type='text' value={this.state.password} onChange={this.handleInput}/>
                </label>
 
-               <input type='submit' value="Submit" onClick={this.handleSubmit}/>
+               <input type='submit' value="Submit" onSubmit={this.handleSubmit}/>
             </form>
+
+            {/* <p>{this.props.errors}</p> */}
+
+            {/* {link} */}
          </div>
       )
    }
