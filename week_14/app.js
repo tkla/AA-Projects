@@ -15,13 +15,15 @@ mongoose
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch(err => console.log(err));
 
-app.use(passport.initialize());
-require('./config/passport')(passport);
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api/users", users);
 app.use("/api/tweets", tweets);
+
+app.use(passport.initialize());
+require('./config/passport')(passport);
 
 const port = process.env.PORT || 5000;
 
